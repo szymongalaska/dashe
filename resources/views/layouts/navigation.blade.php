@@ -10,15 +10,13 @@
         <div class="flex justify-between h-16 flex-col min-h-screen">
                 <!-- Logo -->
                 <div class="flex justify-center pt-8 pb-4 border-gray-300 border-b">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        <x-heroicon-s-home class="block h-9 w-auto fill-current dark:text-gray-200 hover:text-gray-300"/>
-                    </x-nav-link>
+                        <x-heroicon-s-home class="block h-9 w-auto fill-current text-gray-200"/>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="space-x-8 sm:-my-px flex flex-col">
                 <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                <x-heroicon-s-home class="block h-9 w-auto fill-current dark:text-gray-200 hover:text-gray-300"/>
+                <x-heroicon-s-home class="block h-9 w-auto fill-current dark:text-gray-200"/>
                     </x-nav-link>
                 </div>
 
