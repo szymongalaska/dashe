@@ -45,4 +45,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function weather()
+    {
+        return $this->HasMany(\App\Models\Weather::class);
+    }
 }
