@@ -14,17 +14,18 @@ $(function () {
         $.ajax({
             'headers': {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'X-VIEW': 'true',
             },
             'method': 'GET',
             'url': $(element).attr('href'),
             beforeSend: function(){
-                $('main').addClass('loading');
+                $('main').addClass('animate-pulse');
             },
 
             success:function(response){
                 $('nav a').removeClass('text-orange-600');
                 $(element).addClass('text-orange-600');
-                $('main').hide().removeClass('loading').html(response).fadeIn(400);
+                $('main').hide().removeClass('animate-pulse').html(response).fadeIn(400);
                 history.pushState(null, '', $(element).attr('href'));
             },
         });
