@@ -35,6 +35,7 @@
         <main class="w-full mx-6 sm:ml-24 sm:mr-0">
             {{ $slot }}
         </main>
+        <x-loader />
     </div>
 </body>
 </html>

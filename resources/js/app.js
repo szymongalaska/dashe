@@ -19,13 +19,16 @@ $(function () {
             'method': 'GET',
             'url': $(element).attr('href'),
             beforeSend: function(){
-                $('main').addClass('animate-pulse');
+                $('main').animate({opacity: 0.5});
+                $('div.loader').css('display', 'flex');
             },
 
             success:function(response){
                 $('nav a').removeClass('text-orange-600');
                 $(element).addClass('text-orange-600');
-                $('main').hide().removeClass('animate-pulse').html(response).fadeIn(400);
+                $('main').hide().css('opacity', '1');
+                $('div.loader').hide();
+                $('main').html(response).fadeIn(400);
                 history.pushState(null, '', $(element).attr('href'));
             },
         });
