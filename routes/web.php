@@ -1,12 +1,16 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\RouteMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ViewController;
 
-Route::middleware(['auth', 'verified'])->group(function(){
-    Route::get('/', [ViewController::class, 'index'])->name('main');
+Route::middleware(['auth', 'verified', RouteMiddleware::class])->group(function(){
+    Route::get('/', function(){
+        return to_route('dashboard');
+    });
     Route::get('/dashboard', [ViewController::class, 'dashboard'])->name('dashboard');
+    Route::resource('/weather', \App\Http\Controllers\WeatherController::class);
 });
 
 Route::middleware('auth')->group(function () {

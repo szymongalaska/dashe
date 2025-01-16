@@ -17,9 +17,12 @@ class RouteMiddleware
     {
         $original = $next($request)->original;
 
-        if($request->ajax() && $original instanceof \Illuminate\View\View)
+        if($request->ajax() && $request->hasHeader('X-VIEW') && $original instanceof \Illuminate\View\View)
             return response($original);
 
-        return response()->view('main',['content' => $original]);
+        if($next($request)->isOk())
+            return response()->view('main',['content' => $original]);
+        else
+            return $next($request);
     }
 }
