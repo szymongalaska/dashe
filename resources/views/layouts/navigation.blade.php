@@ -14,21 +14,25 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="space-x-8 sm:-my-px flex flex-col">
-                <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                <x-heroicon-s-home class="block h-9 w-auto fill-current dark:text-gray-200"/>
+                <div class="space-y-8 sm:-my-px flex flex-col">
+                    <x-nav-link :href="route('dashboard', [], false)">
+                        <x-heroicon-s-home class="block h-9 w-auto fill-current dark:text-gray-200" />
+                    </x-nav-link>
+                
+                    <x-nav-link :href="route('weather.index')">
+                        <x-fluentui-weather-cloudy-48 class="block h-9 w-auto fill-current dark:text-gray-200" />
                     </x-nav-link>
                 </div>
 
             <!-- Settings Dropdown -->
             <div class="flex justify-center mb-4">
-            <x-nav-link :href="route('profile.edit')" :active="request()->routeIs('profile.edit')">
+            <x-nav-link :href="route('profile.edit')">
                 <x-hugeicons-user />
             </x-nav-link>
             <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
-                            <x-nav-link :href="route('logout')"
+                            <x-nav-link :href="'#'"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
             <x-hugeicons-logout-01 />

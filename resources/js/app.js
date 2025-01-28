@@ -1,36 +1,7 @@
 import './bootstrap';
 
-import Alpine from 'alpinejs';
+// import Alpine from 'alpinejs';
 
-window.Alpine = Alpine;
+// window.Alpine = Alpine;
 
-Alpine.start();
-
-$(function () {
-    $('a').on('click', function (event) {
-        event.preventDefault();
-        var element = this;
-
-        $.ajax({
-            'headers': {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                'X-VIEW': 'true',
-            },
-            'method': 'GET',
-            'url': $(element).attr('href'),
-            beforeSend: function(){
-                $('main').animate({opacity: 0.5});
-                $('div.loader').css('display', 'flex');
-            },
-
-            success:function(response){
-                $('nav a').removeClass('text-orange-600');
-                $(element).addClass('text-orange-600');
-                $('main').hide().css('opacity', '1');
-                $('div.loader').hide();
-                $('main').html(response).fadeIn(400);
-                history.pushState(null, '', $(element).attr('href'));
-            },
-        });
-    });
-});
+// Alpine.start();
