@@ -1,16 +1,27 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Middleware\RouteMiddleware;
+use App\Http\Controllers\SettingsController;
+use App\Livewire\Settings;
+use App\Livewire\Configuration;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ViewController;
+use App\Livewire\App;
 
-Route::middleware(['auth', 'verified', RouteMiddleware::class])->group(function(){
+Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/', function(){
         return to_route('dashboard');
     });
-    Route::get('/dashboard', [ViewController::class, 'dashboard'])->name('dashboard');
+    
+    Route::get('/dashboard', function(){
+        return view('dashboard');
+    })->name('dashboard');
+
     Route::resource('/weather', \App\Http\Controllers\WeatherController::class);
+
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+
+    Route::get('/install', Settings::class)->name('install');
+    Route::get('/configure', Configuration::class)->name('configure');
 });
 
 Route::middleware('auth')->group(function () {

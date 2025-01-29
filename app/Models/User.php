@@ -50,4 +50,25 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->HasMany(\App\Models\Weather::class);
     }
+
+    public function modules()
+    {
+        return $this->HasMany(\App\Models\UserModule::class);
+    }
+
+    public function installedModules()
+    {
+        return $this->hasManyThrough(\App\Models\Module::class, \App\Models\UserModule::class, 'user_id', 'id', 'id', 'module_id');
+    }
+
+    public function notInstalledModules()
+    {
+        return Module::with(['userModules' => function($query){
+            $query->where('user_id', $this->id)
+            ->where(function($subQuery) {
+                $subQuery->whereNull('id')
+                    ->orWhere('enabled', 0);
+            });
+        }]);
+    }
 }

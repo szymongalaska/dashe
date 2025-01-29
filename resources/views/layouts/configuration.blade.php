@@ -16,16 +16,15 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
+    @livewireScripts
 </head>
 
-<body x-data="{ messages: false }"class="font-sans antialiased">
-<div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex">
-    <livewire:nav />
-
-    <main class="w-full mx-6 sm:ml-24 sm:mr-0">
+<body x-data="{messages: false}" class="font-sans antialiased">
+    <div class="min-h-screen flex flex-col justify-center items-center py-6 sm:pt-0 bg-white sm:bg-gray-100 dark:sm:bg-gray-900">
         {{ $slot }}
-    </main> 
-</div>
-@include('components.messages-container')
+    </div>
+    @include('components.messages-container')
 </body>
+
 </html>

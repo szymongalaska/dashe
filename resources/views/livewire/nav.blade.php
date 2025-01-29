@@ -24,6 +24,10 @@
                     <x-nav-link :href="route('weather.index')" :active="request()->routeIs('weather.index')">
                         <x-fluentui-weather-cloudy-48 class="block h-9 w-auto fill-current dark:text-gray-200" />
                     </x-nav-link>
+
+                    <x-nav-link :href="route('settings.index')" :active="request()->routeIs('settings.index')">
+                        <x-heroicon-s-cog class="block h-9 w-auto fill-current dark:text-gray-200" />
+                    </x-nav-link>
                 </div>
 
                 <!-- Settings Dropdown -->
