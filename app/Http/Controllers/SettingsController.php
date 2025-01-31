@@ -27,15 +27,16 @@ class SettingsController extends Controller
             ]
         );
 
-        $modules = request()->user()->modules()->where('id', $data['modules']);
+        $modules = request()->user()->modules()->where('module_id', $data['modules']);
 
         if (isset($data['modules-data'])) {
-            $modules->delete();
+            $result = $modules->delete();
         } else {
-            $modules->update(['enabled' => false]);
+            $result = $modules->update(['enabled' => false]);
         }
 
-        session()->flash('message', 'Modules uninstalled succesfuly');
+        if($result)
+            session()->flash('message', 'Modules uninstalled succesfuly');
 
         return back();
     }

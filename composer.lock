@@ -73,12 +73,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/szymongalaska/openweather.git",
-                "reference": "6ee859a203b126208ea3ca6901c70455ee1b68fe"
+                "reference": "826fa5fab308539643d76e81145e5e15ccae6d1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/szymongalaska/openweather/zipball/6ee859a203b126208ea3ca6901c70455ee1b68fe",
-                "reference": "6ee859a203b126208ea3ca6901c70455ee1b68fe",
+                "url": "https://api.github.com/repos/szymongalaska/openweather/zipball/826fa5fab308539643d76e81145e5e15ccae6d1f",
+                "reference": "826fa5fab308539643d76e81145e5e15ccae6d1f",
                 "shasum": ""
             },
             "require": {
@@ -118,7 +118,7 @@
                 "issues": "https://github.com/szymongalaska/openweather/issues",
                 "source": "https://github.com/szymongalaska/openweather/tree/v1.0.2"
             },
-            "time": "2025-01-30T11:23:25+00:00"
+            "time": "2025-01-31T11:50:29+00:00"
         },
         {
             "name": "blade-ui-kit/blade-heroicons",

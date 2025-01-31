@@ -1,5 +1,5 @@
 <x-app-layout>
-<div>
-    {{var_dump($weather)}}
-</div>
+    <div class="py-12">
+        <livewire:weather.weather  />
+    </div>
 </x-app-layout>
