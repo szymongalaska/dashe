@@ -20,8 +20,8 @@
     @livewireScripts
 </head>
 
-<body x-data="{messages: false}" class="font-sans antialiased">
-    <div class="min-h-screen flex flex-col justify-center items-center py-6 sm:pt-0 bg-white sm:bg-gray-100 dark:sm:bg-gray-900">
+<body class="font-sans antialiased">
+    <div class="min-h-screen flex flex-col justify-center items-center py-6 sm:pt-0 bg-slate-900">
         {{ $slot }}
     </div>
     @include('components.messages-container')

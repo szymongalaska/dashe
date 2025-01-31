@@ -14,8 +14,12 @@ class Settings extends Component
     #[Layout('layouts.configuration')]
     public function render()
     {
-        $user = User::find(request()->user()->id);
-        $modules = $user->notInstalledModules()->get();
+        $modules = request()->user()->notInstalledModules()->get();
+
+        if($modules->isEmpty()){
+            session()->flash('message', 'No modules to install');
+            $this->redirectRoute('dashboard');
+        }
 
         return view('livewire.settings.install', ['modules' => $modules]);
     }

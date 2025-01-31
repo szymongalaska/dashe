@@ -28,6 +28,14 @@ class ConfigurationForm extends Component
             ]
         );
 
-
+        request()->user()->modules()->updateOrCreate([
+            'module_id' => 1, // Weather module ID
+            'user_id' => request()->user()->id,
+            'config' => [
+                'coordinates' => $this->coordinates,
+                'units' => $this->units,
+            ],
+            'position' => ''
+        ]);
     }
 }

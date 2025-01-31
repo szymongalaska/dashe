@@ -10,6 +10,7 @@
             <option value="metric">{{ __('Celsius') }}</option>
             <option value="imperial">{{ __('Fahrenehit') }}</option>
         </select>
+        <x-input-error :messages="$errors->all()" />
     </div>
-    <x-input-error :messages="$errors->all()" />
+    <button class="hidden" type="submit"></button>
 </form>

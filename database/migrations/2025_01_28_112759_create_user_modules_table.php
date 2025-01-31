@@ -19,6 +19,8 @@ return new class extends Migration
             $table->json('config')->nullable();
             $table->integer('position');
             $table->timestamps();
+
+            $table->unique(['user_id', 'module_id']);
         });
     }
 

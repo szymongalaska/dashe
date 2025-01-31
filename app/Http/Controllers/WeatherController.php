@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Weather;
 use Illuminate\Http\Request;
 use Bejblade\OpenWeather\OpenWeather;
+use Bejblade\OpenWeather\Entity\Location;
 
 class WeatherController extends Controller
 {
@@ -14,9 +14,18 @@ class WeatherController extends Controller
      */
     private OpenWeather $api;
 
+    /**
+     * Location object
+     * @var Location
+     */
+    private Location $location;
+
     public function __construct()
     {
-        $this->api = new OpenWeather(['language' => 'pl', 'timezone' => 'Europe/Warsaw']);
+        $config = request()->user()->module('weather')->config;
+        $this->api = new OpenWeather(['language' => 'pl', 'timezone' => 'Europe/Warsaw', 'units' => $config['units']]);
+        $location = explode(', ', $config['coordinates']);
+        $this->location = $this->api->findLocationByCoords($location[0], $location[1]);
     }
 
     /**
@@ -24,56 +33,7 @@ class WeatherController extends Controller
      */
     public function index()
     {
-        $location = $this->api->findLocationByName('Warsaw');
-        $weather = $this->api->getWeather($location);
+        $weather = $this->api->getWeather($this->location);
         return view('weather.index', ['weather' => $weather]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Weather $weather)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Weather $weather)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Weather $weather)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Weather $weather)
-    {
-        //
     }
 }

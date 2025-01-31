@@ -6,6 +6,6 @@ class SettingsController extends Controller
 {
     public function index()
     {
-        return view('settings.index');
+        return view('settings.index')->with('installedModules', request()->user()->installedModules()->get());
     }
 }

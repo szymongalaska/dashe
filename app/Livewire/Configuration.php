@@ -11,8 +11,11 @@ class Configuration extends Component
     #[Layout('layouts.configuration')]
     public function render()
     {   
-        $modules = session()->get('modules');
-        $modules = ['weather'];
+        $modules = session()->get('modules', []);
+        
+        if(count($modules) == 0)
+            $this->redirectRoute('dashboard');
+
         return view('livewire.settings.configuration')->with('modules', $modules);
     }
 }

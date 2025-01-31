@@ -8,6 +8,7 @@ class Nav extends Component
 {
     public function render()
     {
-        return view('livewire.nav');
+        $modules = request()->user()->installedModules()->get();
+        return view('livewire.nav')->with('modules', $modules);
     }
 }

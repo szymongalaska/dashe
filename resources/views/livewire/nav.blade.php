@@ -21,9 +21,12 @@
                         <x-heroicon-s-home class="block h-9 w-auto fill-current dark:text-gray-200" />
                     </x-nav-link>
 
-                    <x-nav-link :href="route('weather.index')" :active="request()->routeIs('weather.index')">
-                        <x-fluentui-weather-cloudy-48 class="block h-9 w-auto fill-current dark:text-gray-200" />
-                    </x-nav-link>
+                    @foreach($modules as $module)
+                        <x-nav-link :href='route("{$module->name}.index")'
+                            :active='request()->routeIs("{$module->name}.index")'>
+                            <x-dynamic-component :component="$module->icon" class="block h-9 w-auto fill-current dark:text-gray-200" />
+                        </x-nav-link>
+                    @endforeach
 
                     <x-nav-link :href="route('settings.index')" :active="request()->routeIs('settings.index')">
                         <x-heroicon-s-cog class="block h-9 w-auto fill-current dark:text-gray-200" />
@@ -38,7 +41,8 @@
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
 
-                        <button class="inline-flex justify-center px-1 pt-1 text-sm font-medium leading-5 text-gray-400 hover:text-gray-300 dark:text-gray-100 focus:outline-none transition duration-150 ease-in-out">
+                        <button
+                            class="inline-flex justify-center px-1 pt-1 text-sm font-medium leading-5 text-gray-400 hover:text-gray-300 dark:text-gray-100 focus:outline-none transition duration-150 ease-in-out">
                             <x-hugeicons-logout-01 />
                         </button>
                     </form>

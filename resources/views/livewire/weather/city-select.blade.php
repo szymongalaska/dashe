@@ -1,4 +1,4 @@
-<div x-data="{open: false, city: {}}" class="relative">
+<div x-init="result = {{count($result)}}" x-data="{open: false, city: {}, result: 0}" class="relative">
     <label for="city"
         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ __('Pick your location') }}</label>
     <div class="relative">
@@ -10,7 +10,7 @@
             class="block w-full p-2 ps-8 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
     </div>
 
-    <div x-cloak x-show="open" x-transition
+    <div x-cloak x-show="open && result > 0" x-transition
         class="absolute w-full bg-white border rounded-lg mt-1 h-36 overflow-y-auto">
         <div class="absolute bg-white inset-0 flex items-center justify-center" wire:loading.flex>
             <x-loader class="w-12" />
@@ -39,5 +39,6 @@
                 class="cursor-pointer w-6 h-6 text-gray-900 hover:text-gray-500" />
         </div>
     </template>
+    <div id="error"></div>
 
 </div>

@@ -6,15 +6,21 @@
         </p>
     </header>
     @foreach($modules as $index => $module)
-        <div x-show="step === {{ $index }}" x-trainsition class="flex flex-col justify-center">
+        <div x-bind:class="step === {{ $index }} ? 'active' : ''" x-show="step === {{ $index }}" x-trainsition
+            class="flex flex-col justify-center">
             @include($module . '.configuration')
         </div>
     @endforeach
-    <x-input-error :messages="$errors->all()" />
 
     <div class="mt-4 flex justify-center gap-4">
-        <x-secondary-button @click="step--" x-cloak x-show="step > 0">{{ __('Previous') }}</x-secondary-button>
-        <x-secondary-button @click="step++" x-cloak x-show="step < items">{{ __('Next') }}</x-secondary-button>
-        <x-primary-button x-show="step === items">{{ __('Finish') }}</x-primary-button>
+        <x-secondary-button @click="submitForm(); step++" x-cloak
+            x-show="step < items">{{ __('Next') }}</x-secondary-button>
+        <x-primary-button @click="submitForm();" x-show="step === items"><a href="{{ route('dashboard') }}">{{ __('Install') }}</a></x-primary-button>
     </div>
 </div>
+
+<script>
+    function submitForm() {
+        document.querySelector('div.active form button').click();
+    }
+</script>

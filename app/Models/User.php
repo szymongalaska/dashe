@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -46,29 +48,57 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function weather()
-    {
-        return $this->HasMany(\App\Models\Weather::class);
-    }
-
-    public function modules()
+    /**
+     * Get all modules
+     * @return HasMany<UserModule, User>
+     */
+    public function modules(): HasMany
     {
         return $this->HasMany(\App\Models\UserModule::class);
     }
 
-    public function installedModules()
+    /**
+     * Get installed modules for user
+     * @return HasManyThrough<Module, UserModule, User>
+     */
+    public function installedModules(): HasManyThrough
     {
         return $this->hasManyThrough(\App\Models\Module::class, \App\Models\UserModule::class, 'user_id', 'id', 'id', 'module_id');
     }
 
+    public function hasAnyModules()
+    {
+        return $this->modules()->count() > 0;
+    }
+
+    /**
+     * Get not installed modules for user
+     * @return Module
+     */
     public function notInstalledModules()
     {
-        return Module::with(['userModules' => function($query){
-            $query->where('user_id', $this->id)
-            ->where(function($subQuery) {
-                $subQuery->whereNull('id')
-                    ->orWhere('enabled', 0);
-            });
-        }]);
+        return Module::doesntHave('userModules', 'and', function($query){
+            $query->where('user_id', $this->id);
+        });
+    }
+
+    /**
+     * Check if module is installed for user
+     * @param string $module Module name
+     * @return bool
+     */
+    public function isModuleInstalled(string $module): bool
+    {
+        return $this->installedModules()->where('name', $module)->exists();
+    }
+
+    /**
+     * Get module data of user
+     * @param string $module Module name
+     * @return UserModule|null
+     */
+    public function module(string $module): UserModule|null
+    {
+        return $this->modules()->with('module')->whereRelation('module', 'name', $module)->where('enabled', true)->first();
     }
 }
