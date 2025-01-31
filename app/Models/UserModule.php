@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 class UserModule extends Model
 {
     use HasFactory;
-       protected $fillable = [
-        'user_id',
-        'module_id',
-        'config',
-        'enabled',
-        'position',
+    protected $fillable = [
+     'user_id',
+     'module_id',
+     'config',
+     'enabled',
+     'position',
     ];
 
     protected $casts = [
@@ -34,9 +34,9 @@ class UserModule extends Model
     }
 
     protected function position(): Attribute
-{
+    {
         return Attribute::make(
-            set: function($value, $attributes) { 
+            set: function ($value, $attributes) {
                 $val = $this->where('user_id', $attributes['user_id'])->max('position');
                 return $val === null ? 0 : $val + 1;
             }

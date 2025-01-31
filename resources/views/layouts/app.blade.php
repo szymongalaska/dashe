@@ -19,13 +19,14 @@
 </head>
 
 <body class="font-sans antialiased">
-<div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex">
-    <livewire:nav />
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex">
+        <livewire:nav />
 
-    <main class="w-full mx-6 sm:ml-24 sm:mr-0">
-        {{ $slot }}
-    </main> 
-</div>
-@include('components.messages-container')
+        <main class="w-full mx-6 sm:ml-24 sm:mr-0">
+            {{ $slot }}
+        </main>
+    </div>
+    @include('components.messages-container')
 </body>
+
 </html>

@@ -7,7 +7,7 @@
     <form wire:submit="configure" class="my-4">
         <div class="flex flex-col space-y-6">
             @foreach ($modules as $module)
-                @include($module->name . '.install')
+                @include($module->name . '.install', ['id' => $module->id])
             @endforeach
 
             <div class="flex justify-center">

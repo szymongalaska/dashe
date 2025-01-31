@@ -1,4 +1,4 @@
-<x-install-card :id="'weather'">
+<x-install-card :id="$id">
     <div class="flex flex-row items-center gap-4">
         <x-dynamic-component :component="$modulesIcons['weather']" class="text-gray-400 h-16" />
         <div>

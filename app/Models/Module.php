@@ -20,7 +20,7 @@ class Module extends Model
     }
 
     public static function icons(): array
-    {   
+    {
         return Module::pluck('icon', 'name')->toArray();
     }
 }

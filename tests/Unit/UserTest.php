@@ -16,7 +16,7 @@ class UserTest extends TestCase
     {
         User::factory()->has(UserModule::factory()->has(Module::factory()), 'modules')->create();
         User::factory()->create();
-        
+
         $this->assertEmpty(User::find(1)->notInstalledModules()->get());
         $this->assertNotEmpty(User::find(2)->notInstalledModules()->get());
     }
@@ -25,7 +25,7 @@ class UserTest extends TestCase
     {
         User::factory()->has(UserModule::factory()->has(Module::factory()), 'modules')->create();
         User::factory()->create();
-        
+
         $this->assertEmpty(User::find(2)->installedModules()->get());
         $this->assertNotEmpty(User::find(1)->installedModules()->get());
     }

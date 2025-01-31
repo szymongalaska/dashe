@@ -12,7 +12,8 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -63,12 +64,12 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function installedModules(): HasManyThrough
     {
-        return $this->hasManyThrough(\App\Models\Module::class, \App\Models\UserModule::class, 'user_id', 'id', 'id', 'module_id');
+        return $this->hasManyThrough(\App\Models\Module::class, \App\Models\UserModule::class, 'user_id', 'id', 'id', 'module_id')->where('enabled', true);
     }
 
-    public function hasAnyModules()
+    public function hasAnyModules(): bool
     {
-        return $this->modules()->count() > 0;
+        return $this->installedModules()->count() > 0;
     }
 
     /**
@@ -77,8 +78,10 @@ class User extends Authenticatable implements MustVerifyEmail
      */
     public function notInstalledModules()
     {
-        return Module::doesntHave('userModules', 'and', function($query){
+        return Module::doesntHave('userModules', 'and', function ($query) {
             $query->where('user_id', $this->id);
+        })->orWhereHas('userModules', function ($query) {
+            $query->where('enabled', false);
         });
     }
 
@@ -90,6 +93,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function isModuleInstalled(string $module): bool
     {
         return $this->installedModules()->where('name', $module)->exists();
+    }
+
+    public function disabledModules()
+    {
+        return $this->modules()->where('enabled', false);
     }
 
     /**

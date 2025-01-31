@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use Livewire\Component;
 use App\Models\User;
+use App\Models\Module;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Layout;
 
@@ -16,7 +17,7 @@ class Settings extends Component
     {
         $modules = request()->user()->notInstalledModules()->get();
 
-        if($modules->isEmpty()){
+        if ($modules->isEmpty()) {
             session()->flash('message', 'No modules to install');
             $this->redirectRoute('dashboard');
         }
@@ -29,18 +30,24 @@ class Settings extends Component
         $user = User::find(request()->user()->id);
         $modules = $user->notInstalledModules()->get();
 
-        $this->validate([
+        $this->validate(
+            [
             'modulesToInstall' => [
                 'required',
                 'array',
                 'min:1',
             ],
-            'modulesToInstall.*' => Rule::in($modules->pluck('name')->toArray()),
+            'modulesToInstall.*' => Rule::in($modules->pluck('id')->toArray()),
         ],
-        [
+            [
             'modulesToInstall.required' => 'Please select at least one module to install.',
             'modulesToInstall.*.in' => 'Invalid modules selected.',
-        ]);
+        ]
+        );
+
+        $this->modulesToInstall = array_map(function ($module) {
+            return Module::find($module)->value('name');
+        }, $this->modulesToInstall);
 
         session()->flash('modules', $this->modulesToInstall);
         return to_route('configure');

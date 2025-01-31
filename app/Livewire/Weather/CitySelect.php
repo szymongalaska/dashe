@@ -21,7 +21,7 @@ class CitySelect extends Component
         if (strlen($this->city) > 2) {
             $api = new OpenWeather();
             $result = $api->findLocationByName($this->city, 10);
-            $this->result = array_map(function($city){
+            $this->result = array_map(function ($city) {
                 return ['name' => $city->getName(), 'country' => $city->getCountry(), 'coordinates' => $city->getCoordinates()];
             }, $result);
         }
