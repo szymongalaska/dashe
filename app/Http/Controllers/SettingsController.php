@@ -35,8 +35,9 @@ class SettingsController extends Controller
             $result = $modules->update(['enabled' => false]);
         }
 
-        if($result)
+        if ($result) {
             session()->flash('message', 'Modules uninstalled succesfuly');
+        }
 
         return back();
     }

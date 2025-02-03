@@ -6,8 +6,6 @@ use Illuminate\Http\Request;
 
 class WeatherController extends Controller
 {
-
-
     public function __construct()
     {
     }
