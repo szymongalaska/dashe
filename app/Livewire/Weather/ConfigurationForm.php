@@ -38,7 +38,7 @@ class ConfigurationForm extends Component
             'user_id' => request()->user()->id,
             'config' => [
                 'geolocation' => $this->geolocation,
-                'locations' => [0 => [$this->coordinates]],
+                'locations' => [0 => $this->getLocationCity()],
                 'units' => $this->units,
             ],
             'position' => ''

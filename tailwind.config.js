@@ -14,6 +14,15 @@ export default {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            keyframes: {
+                shimmer: {
+                    '0%': { transform: 'translateX(-100%)' },
+                    '100%': { transform: 'transalteX(100%)' },
+                },
+            },
+            animation: {
+                shimmer: 'shimmer 1.0s linear infinite',
+            }
         },
     },
 

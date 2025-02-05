@@ -10,12 +10,15 @@ class Weather extends Component
 {
     public $locationIndex = 0;
 
+    public $locations;
+
     public $coordinates;
 
     public $geolocation;
 
-    public function mount()
+    public function mount(array $locations)
     {
+        $this->locations = $locations;
         $config = request()->user()->module('weather')->config;
         $this->geolocation = $config['geolocation'];
     }
@@ -31,8 +34,8 @@ class Weather extends Component
     private function getLocation()
     {
         $config = request()->user()->module('weather')->config;
-        $api = new OpenWeather(['language' => 'pl', 'timezone' => 'Europe/Warsaw', 'units' => $config['units']]);
-        $cacheKey = request()->user()->id . 'weatherLocation-' . $this->locationIndex;
+        $api = new OpenWeather(['timezone' => 'Europe/Warsaw', 'units' => $config['units']]);
+        $cacheKey = 'weather_' . $config['units'] . '_' . $config['locations'][$this->locationIndex]['coordinates'];
 
         if (Cache::has($cacheKey)) {
             $location = Cache::get($cacheKey);
@@ -43,7 +46,7 @@ class Weather extends Component
                 Cache::put($cacheKey, $location, $nextUpdate);
             }
         } else {
-            $location = explode(', ', $config['locations'][$this->locationIndex]);
+            $location = explode(', ', $config['locations'][$this->locationIndex]['coordinates']);
             $location = $api->findLocationByCoords($location[0], $location[1]);
             $api->getAllData($location);
             $nextUpdate = new \DateTime('@' . $location->weather()->getTimestamp()->getTimestamp() + 600);
@@ -66,10 +69,22 @@ class Weather extends Component
         }
 
         $config = request()->user()->module('weather')->config;
-        $config['locations'][0] = $coordinates;
+
+        $api = new OpenWeather();
+        $coords = explode(', ', $coordinates);
+        $location = $api->findLocationByCoords($coords[0], $coords[1]);
+        $config['locations'][0] = ['name' => $location->getName(), 'country' => $location->getCountry(), 'coordinates' => $coordinates];
 
         request()->user()->module('weather')->update(['config' => $config]);
         $this->dispatch('refresh');
     }
 
+    public function placeholder()
+    {
+        return <<<'HTML'
+        <div class="max-w-7xl animate-pulse mx-auto sm:px-6 lg:px-8 p-6 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg relative">
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-gray-100 to-transparent opacity-50 animate-shimmer"></div>
+        </div>
+        HTML;
+    }
 }

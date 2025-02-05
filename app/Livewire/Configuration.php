@@ -3,28 +3,31 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use Livewire\Attributes\Session;
 use Livewire\Attributes\Layout;
 
 class Configuration extends Component
 {
+    #[Session(key: 'modules')]
+    public $modules = [];
+
     #[Layout('layouts.configuration')]
     public function render()
     {
-        $modules = session()->get('modules', []);
 
-        if (count($modules) > 0) {
-            foreach ($modules as $key => $moduleId) {
+        if (count($this->modules) > 0) {
+            foreach ($this->modules as $key => $moduleId) {
                 $result = request()->user()->disabledModules()->where('module_id', $moduleId)->update(['enabled' => true]);
                 if ($result) {
-                    unset($modules[$key]);
+                    unset($this->modules[$key]);
                 }
             }
         }
 
-        if (count($modules) == 0) {
+        if (count($this->modules) == 0) {
             $this->redirectRoute('dashboard');
         }
 
-        return view('livewire.settings.configuration')->with('modules', $modules);
+        return view('livewire.settings.configuration')->with('this->modules', $this->modules);
     }
 }

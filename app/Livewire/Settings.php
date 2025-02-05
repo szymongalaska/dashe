@@ -6,10 +6,12 @@ use Livewire\Component;
 use App\Models\User;
 use App\Models\Module;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\Session;
 use Livewire\Attributes\Layout;
 
 class Settings extends Component
 {
+    #[Session(key: 'modules')]
     public $modulesToInstall = [];
 
     #[Layout('layouts.configuration')]
@@ -21,6 +23,8 @@ class Settings extends Component
             session()->flash('message', 'No modules to install');
             $this->redirectRoute('dashboard');
         }
+
+        $this->modulesToInstall = [];
 
         return view('livewire.settings.install', ['modules' => $modules]);
     }
@@ -49,7 +53,6 @@ class Settings extends Component
             return Module::find($module)->value('name');
         }, $this->modulesToInstall);
 
-        session()->flash('modules', $this->modulesToInstall);
         return to_route('configure');
     }
 }
