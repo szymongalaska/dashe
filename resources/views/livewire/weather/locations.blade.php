@@ -20,7 +20,7 @@
                     @else
                         <form wire:submit="removeLocation({{$key}})" class="flex items-center justify-between"
                             wire:loading.class.delay="animate-pulse">
-                            <span>{{implode(', ', [$location['name'], $location['state'], $location['country']])}}<span
+                            <span class="inline-flex gap-2">{{implode(', ', [$location['name'], $location['country']])}}<span
                                     class="text-[0.5rem] text-gray-400">{{$location['coordinates']}}</span></span><button
                                 type="submit">
                                 <x-mdi-map-marker-remove
@@ -31,4 +31,5 @@
             @endforeach
         </ul>
     </div>
+    <x-input-error class="p-2" :messages="$errors->get('location')" />
 </div>

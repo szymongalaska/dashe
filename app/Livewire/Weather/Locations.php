@@ -11,6 +11,8 @@ class Locations extends Component
 
     public $config;
 
+    public $location;
+
     public function mount()
     {
         $this->config = request()->user()->module('weather')->config;
@@ -35,6 +37,19 @@ class Locations extends Component
 
     public function removeLocation(int $location)
     {
+        $this->location = $location;
+
+        $this->validate(
+            [
+                'location' => [
+                    'gt:0',
+                    Rule::in(array_keys($this->config['locations']))
+                ]
+            ],
+            [
+                'location' => 'This location can not be removed'
+            ]
+        );
 
         if (isset($this->config['locations'][$location])) {
             unset($this->config['locations'][$location]);
