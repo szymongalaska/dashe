@@ -1,4 +1,6 @@
-<div x-data="{step: 0, items: {{ count($modules) - 1 }}}"
+<div x-data="{step: 0, redirect: false, items: {{ count($modules) - 1 }}}" @form-saved="
+    if(redirect)
+    window.location = '{{route('dashboard')}}'"
     class="flex flex-col justify-between w-11/12 sm:max-w-xl sm:my-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden rounded-lg space-y-6">
     <header>
         <p class="text-sm text-right font-medium text-gray-900 dark:text-gray-100">
@@ -15,7 +17,8 @@
     <div class="mt-4 flex justify-center gap-4">
         <x-secondary-button @click="submitForm(); step++" x-cloak
             x-show="step < items">{{ __('Next') }}</x-secondary-button>
-        <x-primary-button @click="submitForm();" x-show="step === items"><a href="{{ route('dashboard') }}">{{ __('Install') }}</a></x-primary-button>
+        <x-primary-button @click="submitForm(); redirect = true;"
+            x-show="step === items">{{ __('Install') }}</x-primary-button>
     </div>
 </div>
 

@@ -37,6 +37,8 @@ class ConfigurationForm extends Component
             ],
             'position' => ''
         ]);
+
+        $this->dispatch('form-saved');
     }
 
     public function getLocationCity()
