@@ -22,7 +22,7 @@
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex">
         <livewire:nav />
 
-        <main class="w-full mx-6 sm:ml-24 sm:mr-0">
+        <main class="w-full mx-6 md:ml-24 md:mr-0">
             {{ $slot }}
         </main>
     </div>

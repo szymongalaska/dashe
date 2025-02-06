@@ -1,19 +1,14 @@
-<form x-data="{ coordinates: @entangle('coordinates'), city: false, geolocation: @entangle('geolocation') }"
-    x-effect="if ( coordinates && !city ) { city = await $wire.getLocationCity() }" class="w-full min-h-40 space-y-4"
+<form x-data="{ loading: false, coordinates: @entangle('coordinates'), city: false}"
+    x-effect="if ( coordinates && !city ) { city = await $wire.getLocationCity(); loading = false }" class="w-full min-h-40 space-y-4"
     wire:submit="save">
-    <livewire:weather.city-select />
-
-    <div class="flex justify-center items-center gap-2">
-        <div class="w-24 h-px bg-gray-300"></div>
-        <p class="text-gray-400 uppercase text-xs">{{__("Or")}}</p>
-        <div class="w-24 h-px bg-gray-300"></div>
-    </div>
-
+    <p class="text-sm text-gray-600">To use the weather module you must give your permission to locate your position.
+    </p>
     <div class="w-full">
-        <input type="checkbox" id="geolocation" value="true" wire:model="geolocation" class="hidden peer">
-        <label for="geolocation" @click="city = false; getLocation((coords) => coordinates = coords)"
+        <input type="checkbox" id="geolocation" class="hidden peer">
+        <label for="geolocation" @click="loading = true; city = false; getLocation((coords) => coordinates = coords)"
+        x-bind:class="loading ? 'animate-pulse' : ''"
             class="w-full inline-flex items-center justify-center p-2 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-sm cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-purple-800 dark:peer-checked:border-purple-800 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-            <div>
+            <div class="inline-flex gap-2 items-center"><x-mdi-crosshairs-gps class="w-4" />
                 {{__('Find my location')}}
             </div>
         </label>
@@ -24,12 +19,15 @@
         <div x-cloak x-show="coordinates !== false"
             class="flex items-center justify-between shadow p-4 mt-6 text-sm bg-gray-50 rounded-lg">
             <div class="space-x-2 flex flex-row items-center">
-                <x-hugeicons-location-04 class="text-gray-500" />
-                <span x-text="city.name + ', ' + city.country"></span>
-                <span x-text="city.coordinates" class="text-[8px] text-gray-500"></span>
+                <x-mdi-map-marker-radius class="w-8 text-gray-500" />
+                <div>
+                    <p class="text-gray-400 text-xs">{{__('Your current location')}}</p>
+                <div>
+                    <span x-text="city.name + ', ' + city.country"></span>
+                    <span x-text="city.coordinates" class="text-[8px] text-gray-500"></span>
+                </div>
+                </div>
             </div>
-            <x-heroicon-o-x-mark @click="coordinates = false, city = {}, geolocation = false"
-                class="cursor-pointer w-6 h-6 text-gray-900 hover:text-gray-500" />
         </div>
     </template>
 

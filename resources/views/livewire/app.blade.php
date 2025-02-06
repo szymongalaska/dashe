@@ -3,7 +3,7 @@
         <livewire:nav />
     @endpersist
 
-    <main class="w-full mx-6 sm:ml-24 sm:mr-0" >
+    <main class="w-full mx-6 md:ml-24 md:mr-0" >
         {{ view($view) }}
     </main>
     <x-loader />

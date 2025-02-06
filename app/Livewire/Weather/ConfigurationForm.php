@@ -10,9 +10,6 @@ class ConfigurationForm extends Component
     public $coordinates = false;
 
     public $units = '';
-
-    public $geolocation = false;
-
     public function render()
     {
         return view('livewire.weather.configuration-form');
@@ -24,12 +21,10 @@ class ConfigurationForm extends Component
             [
                 'coordinates' => 'required|regex:/^(\-?\d+(\.\d+)?),\s*(\-?\d+(\.\d+)?)$/',
                 'units' => 'required|in:metric,imperial',
-                'geolocation' => 'boolean',
             ],
             [
                 'coordinates' => 'Please select a valid location.',
                 'units' => 'Please select a unit.',
-                'geolocation' => 'Invalid geolocation value.'
             ]
         );
 
@@ -37,7 +32,6 @@ class ConfigurationForm extends Component
             'module_id' => 1, // Weather module ID
             'user_id' => request()->user()->id,
             'config' => [
-                'geolocation' => $this->geolocation,
                 'locations' => [0 => $this->getLocationCity()],
                 'units' => $this->units,
             ],

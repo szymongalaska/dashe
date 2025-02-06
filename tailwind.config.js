@@ -22,7 +22,11 @@ export default {
             },
             animation: {
                 shimmer: 'shimmer 1.0s linear infinite',
-            }
+            },
+            maxWidth: {
+                '3xs': '16rem',
+                '2xs': '18rem',
+            },
         },
     },
 

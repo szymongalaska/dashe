@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
 
         Module::create([
             'name' => 'weather',
-            'icon' => 'fluentui-weather-cloudy-48'
+            'icon' => 'mdi-weather-partly-snowy-rainy'
         ]);
     }
 }

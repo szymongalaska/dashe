@@ -71,3 +71,9 @@ window.getLocation = function (callback) {
         }
     );
 }
+
+document.addEventListener('livewire:init', () => {
+    Livewire.on('locations-update', (event) => {
+        window.chart.update();
+    })
+});

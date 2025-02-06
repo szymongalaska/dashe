@@ -22,7 +22,7 @@ class CitySelect extends Component
             $api = new OpenWeather();
             $result = $api->findLocationByName($this->city, 10);
             $this->result = array_map(function ($city) {
-                return ['name' => $city->getName(), 'country' => $city->getCountry(), 'coordinates' => $city->getCoordinates()];
+                return ['name' => $city->getName(), 'state' => $city->getState(), 'country' => $city->getCountry(), 'coordinates' => $city->getCoordinates()];
             }, $result);
         }
     }

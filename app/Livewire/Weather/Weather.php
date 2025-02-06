@@ -14,13 +14,17 @@ class Weather extends Component
 
     public $coordinates;
 
-    public $geolocation;
+    public $config;
 
-    public function mount(array $locations)
+
+    protected $listeners = [
+        'locations-update' => 'locationsUpdate'
+    ];
+
+    public function mount()
     {
-        $this->locations = $locations;
-        $config = request()->user()->module('weather')->config;
-        $this->geolocation = $config['geolocation'];
+        $this->config = request()->user()->module('weather')->config;
+        $this->locations = $this->config['locations'];
     }
 
     public function render()
@@ -33,9 +37,8 @@ class Weather extends Component
      * */
     private function getLocation()
     {
-        $config = request()->user()->module('weather')->config;
-        $api = new OpenWeather(['timezone' => 'Europe/Warsaw', 'units' => $config['units']]);
-        $cacheKey = 'weather_' . $config['units'] . '_' . $config['locations'][$this->locationIndex]['coordinates'];
+        $api = new OpenWeather(['timezone' => 'Europe/Warsaw', 'units' => $this->config['units']]);
+        $cacheKey = 'weather_' . $this->config['units'] . '_' . $this->config['locations'][$this->locationIndex]['coordinates'];
 
         if (Cache::has($cacheKey)) {
             $location = Cache::get($cacheKey);
@@ -46,7 +49,7 @@ class Weather extends Component
                 Cache::put($cacheKey, $location, $nextUpdate);
             }
         } else {
-            $location = explode(', ', $config['locations'][$this->locationIndex]['coordinates']);
+            $location = explode(', ', $this->locations[$this->locationIndex]['coordinates']);
             $location = $api->findLocationByCoords($location[0], $location[1]);
             $api->getAllData($location);
             $nextUpdate = new \DateTime('@' . $location->weather()->getTimestamp()->getTimestamp() + 600);
@@ -68,15 +71,12 @@ class Weather extends Component
             return null;
         }
 
-        $config = request()->user()->module('weather')->config;
-
         $api = new OpenWeather();
         $coords = explode(', ', $coordinates);
         $location = $api->findLocationByCoords($coords[0], $coords[1]);
-        $config['locations'][0] = ['name' => $location->getName(), 'country' => $location->getCountry(), 'coordinates' => $coordinates];
+        $this->config['locations'][0] = ['name' => $location->getName(), 'country' => $location->getCountry(), 'coordinates' => $coordinates];
 
-        request()->user()->module('weather')->update(['config' => $config]);
-        $this->dispatch('refresh');
+        request()->user()->module('weather')->update(['config' => $this->config]);
     }
 
     public function placeholder()
@@ -86,5 +86,15 @@ class Weather extends Component
             <div class="absolute inset-0 bg-gradient-to-r from-transparent via-gray-100 to-transparent opacity-50 animate-shimmer"></div>
         </div>
         HTML;
+    }
+
+    public function locationsUpdate()
+    {
+        $this->config = request()->user()->module('weather')->config;
+        $this->locations = $this->config['locations'];
+        if (!in_array($this->locationIndex, array_keys($this->locations))) {
+            end($this->locations);
+            $this->locationIndex = key($this->locations);
+        }
     }
 }

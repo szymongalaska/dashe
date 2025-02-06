@@ -9,35 +9,38 @@ class Locations extends Component
 {
     public $city = [];
 
+    public $config;
+
+    public function mount()
+    {
+        $this->config = request()->user()->module('weather')->config;
+    }
+
     public function render()
     {
-        return view('livewire.weather.locations', ['locations' => request()->user()->module('weather')->config['locations']]);
+        return view('livewire.weather.locations', ['locations' => $this->config['locations']]);
     }
 
     public function addLocation()
     {
-        $config = request()->user()->module('weather')->config;
-        $locations = $config['locations'];
-
         $this->validate([
-            'city.coordinates' => Rule::notIn(array_column($locations, 'coordinates')),
+            'city.coordinates' => Rule::notIn(array_column($this->config['locations'], 'coordinates')),
         ]);
 
-        $config['locations'][] = $this->city;
+        $this->config['locations'][] = $this->city;
 
-        request()->user()->module('weather')->update(['config' => $config]);
-        $this->dispatch('refresh')->to(Weather::class);
+        request()->user()->module('weather')->update(['config' => $this->config]);
+        $this->dispatch('locations-update')->to(Weather::class);
     }
 
     public function removeLocation(int $location)
     {
-        $config = request()->user()->module('weather')->config;
 
-        if (isset($config['locations'][$location])) {
-            unset($config['locations'][$location]);
+        if (isset($this->config['locations'][$location])) {
+            unset($this->config['locations'][$location]);
         }
 
-        request()->user()->module('weather')->update(['config' => $config]);
-        $this->dispatch('refresh')->to(Weather::class);
+        request()->user()->module('weather')->update(['config' => $this->config]);
+        $this->dispatch('locations-update')->to(Weather::class);
     }
 }

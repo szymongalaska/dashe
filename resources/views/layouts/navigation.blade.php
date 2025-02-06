@@ -10,7 +10,7 @@
         <div class="flex justify-between h-16 flex-col min-h-screen">
                 <!-- Logo -->
                 <div class="flex justify-center pt-8 pb-4 border-gray-300 border-b">
-                        <x-heroicon-s-home class="block h-9 w-auto fill-current text-gray-200"/>
+                        <x-mdi-monitor-dashboard class="w-8 block h-9 w-auto fill-current text-gray-200"/>
                 </div>
 
                 <!-- Navigation Links -->

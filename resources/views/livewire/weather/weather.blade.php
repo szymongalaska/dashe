@@ -1,12 +1,15 @@
 <div x-data="{locationIndex: @entangle('locationIndex')}">
     <div class="max-w-7xl flex mx-auto overflow-hidden px-4">
         @foreach($locations as $key => $locationInfo)
-            <div class="max-w-36 bg-white dark:bg-gray-800 shadow-sm text-center px-4 py-2 cursor-pointer"
-                @click="locationIndex = {{$key}}; $wire.$refresh()"
+            <div @class([
+                'max-w-36 bg-white dark:bg-gray-800 shadow-sm text-center text-sm px-4 py-1 cursor-pointer hover:text-gray-600 transition duration-150 ease-in-out',
+                'rounded-tl-lg' => $loop->first,
+                'rounded-tr-lg' => $loop->last,
+                ]) @click="locationIndex = {{$key}}; $wire.$refresh()"
                 x-bind:class="locationIndex == {{$key}} ? 'text-slate-800 font-semibold' : ''">
-                <span class="inline-flex">
-                    @if($geolocation == true && $key == 0)
-                        <x-hugeicons-location-share-01 class="w-8" />
+                <span class="inline-flex align-middle items-center gap-1">
+                    @if($loop->first)
+                        <x-mdi-crosshairs-gps class="w-4" />
                     @endif
                     {{$locationInfo['name']}}
                 </span>
@@ -19,27 +22,11 @@
         <div wire:loading
             class="absolute inset-0 bg-gradient-to-r from-transparent via-gray-100 to-transparent opacity-50 animate-shimmer">
         </div>
-        <x-dropdown align="left">
-            <x-slot name="trigger">
-                <span class="flex gap-2 cursor-pointer hover:text-gray-600 text-center">
-                    {{$location->getName() }}
-                    <x-heroicon-o-chevron-down class="w-6" />
-                </span>
-            </x-slot>
-            <x-slot name="content">
-                <div class="flex flex-col">
-                    @foreach ($locations as $key => $locationInfo)
-                        <span class="p-1 text-sm text-center cursor-pointer hover:bg-gray-100"
-                            @click="locationIndex = {{$key}}; $wire.$refresh()">{{$locationInfo['name']}}</span>
-                    @endforeach
-                </div>
-            </x-slot>
-        </x-dropdown>
         <div class="flex flex-col md:flex-row items-center gap-2">
             <div class="flex flex-col items-center justify-center">
                 <div class="flex items-center">
                     <div class="w-36">
-                        <img class="object-none" alt="{{$location->weather()->getDescription()}}"
+                        <img class="mr-2" alt="{{$location->weather()->getDescription()}}"
                             src="https://openweathermap.org/img/wn/{{$location->weather()->getIcon()}}@4x.png" />
                     </div>
                     <div class="flex flex-col text-gray-800">
@@ -89,7 +76,7 @@
                     @if($location->weather()->wind())
                         <x-weather.condition>
                             <p>{{__('Wind: ')}}</p>
-                            <p class="flex justify-center font-semibold"><x-heroicon-o-arrow-long-down
+                            <p class="flex justify-center font-semibold"><x-mdi-arrow-down-thin
                                     class="w-4 rotate-[{{$location->weather()->wind()->getDirection()}}deg]" />
                                 {{$location->weather()->wind()->getSpeed()}} m/s</p>
                         </x-weather.condition>
@@ -108,7 +95,7 @@
                     @endif
                 </div>
                 <div
-                    class="flex flex-col max-w-xs md:max-w-3xl p-2 border border-gray-100 shadow-sm rounded-lg overflow-x-auto">
+                    class="flex flex-col max-w-2xs sm:max-w-xl xl:max-w-3xl p-2 border border-gray-100 shadow-sm rounded-lg overflow-x-auto">
                     @include('weather.components.forecast-chart', ['forecast' => $location->forecast()->all(), 'key' => $locationIndex])
                     <div class="inline-flex w-full">
                         @foreach($location->forecast()->all() as $forecast)
