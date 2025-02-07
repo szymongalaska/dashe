@@ -14,12 +14,12 @@ class Configuration extends Component
     #[Layout('layouts.configuration')]
     public function render()
     {
-
+        
         if (count($this->modules) > 0) {
-            foreach ($this->modules as $key => $moduleId) {
+            foreach ($this->modules as $moduleId => $module) {
                 $result = request()->user()->disabledModules()->where('module_id', $moduleId)->update(['enabled' => true]);
                 if ($result) {
-                    unset($this->modules[$key]);
+                    unset($this->modules[$moduleId]);
                 }
             }
         }

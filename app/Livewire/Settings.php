@@ -49,9 +49,13 @@ class Settings extends Component
         ]
         );
 
-        $this->modulesToInstall = array_map(function ($module) {
-            return Module::find($module)->value('name');
-        }, $this->modulesToInstall);
+        $modules = [];
+        foreach($this->modulesToInstall as $moduleId)
+        {
+            $modules[$moduleId] = Module::find($moduleId)->value('name');
+        }
+
+        $this->modulesToInstall = $modules;
 
         return to_route('configure');
     }
