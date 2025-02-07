@@ -3,7 +3,7 @@
     window.location = '{{route('dashboard')}}'"
     class="flex flex-col justify-between w-11/12 sm:max-w-xl sm:my-6 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden rounded-lg space-y-6">
     <header>
-        <p class="text-sm text-right font-medium text-gray-900 dark:text-gray-100">
+        <p class="text-sm text-right font-medium text-gray-600 dark:text-gray-300">
             {{ __("Configuration")}}
         </p>
     </header>

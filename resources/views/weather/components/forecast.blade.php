@@ -2,7 +2,7 @@
     /** @var Bejblade\OpenWeather\Entity\Weather $forecast
      */
 @endphp
-<div class="flex-none p-2 text-xs w-20 mx-2">
+<div class="flex-none p-2 text-xs w-20 mx-2 text-gray-800 dark:text-gray-300">
     <div class="flex flex-col items-center">
         <div class="flex items-center">
             <img class="w-8" src="https://openweathermap.org/img/wn/{{$forecast->getIcon()}}.png" />

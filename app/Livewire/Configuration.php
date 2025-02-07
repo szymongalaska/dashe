@@ -14,7 +14,7 @@ class Configuration extends Component
     #[Layout('layouts.configuration')]
     public function render()
     {
-        
+
         if (count($this->modules) > 0) {
             foreach ($this->modules as $moduleId => $module) {
                 $result = request()->user()->disabledModules()->where('module_id', $moduleId)->update(['enabled' => true]);
@@ -28,6 +28,8 @@ class Configuration extends Component
             $this->redirectRoute('dashboard');
         }
 
-        return view('livewire.settings.configuration')->with('this->modules', $this->modules);
+        $this->modules = array_values($this->modules);
+
+        return view('livewire.settings.configuration');
     }
 }

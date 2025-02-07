@@ -1,6 +1,6 @@
 <div x-data="{ open: false }">
     <div class="md:hidden fixed w-8 m-4 z-40" @click="open = !open">
-        <x-mdi-menu class="text-slate-800" />
+        <x-mdi-menu class="text-slate-800 dark:text-slate-200" />
     </div>
     <nav x-show="open" @click.away="open = false" x-transition x-cloak
         class="fixed z-50 flex bg-slate-900 h-full w-1/3 min-h-max">

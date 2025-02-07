@@ -50,8 +50,7 @@ class Settings extends Component
         );
 
         $modules = [];
-        foreach($this->modulesToInstall as $moduleId)
-        {
+        foreach ($this->modulesToInstall as $moduleId) {
             $modules[$moduleId] = Module::find($moduleId)->value('name');
         }
 

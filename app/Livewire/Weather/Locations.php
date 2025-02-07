@@ -56,6 +56,6 @@ class Locations extends Component
         }
 
         request()->user()->module('weather')->update(['config' => $this->config]);
-        $this->dispatch('locations-update')->to(Weather::class);
+        $this->dispatch('weather-update')->to(Weather::class);
     }
 }

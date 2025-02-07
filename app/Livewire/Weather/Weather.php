@@ -18,7 +18,7 @@ class Weather extends Component
 
 
     protected $listeners = [
-        'locations-update' => 'locationsUpdate'
+        'weather-update' => 'locationsUpdate'
     ];
 
     public function mount()
@@ -83,7 +83,7 @@ class Weather extends Component
     {
         return <<<'HTML'
         <div class="max-w-7xl animate-pulse mx-auto sm:px-6 lg:px-8 p-6 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg relative">
-            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-gray-100 to-transparent opacity-50 animate-shimmer"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-transparent via-gray-100 dark:via-gray-900 to-transparent opacity-50 animate-shimmer"></div>
         </div>
         HTML;
     }
