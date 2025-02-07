@@ -32,7 +32,7 @@ class Locations extends Component
         $this->config['locations'][] = $this->city;
 
         request()->user()->module('weather')->update(['config' => $this->config]);
-        $this->dispatch('locations-update')->to(Weather::class);
+        $this->dispatch('weather-update')->to(Weather::class);
     }
 
     public function removeLocation(int $location)
