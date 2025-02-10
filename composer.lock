@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "bejblade/openweather",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/szymongalaska/openweather.git",
-                "reference": "826fa5fab308539643d76e81145e5e15ccae6d1f"
+                "reference": "205996e04ebc67f2e36d052dd9a57f3cdf6dd04e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/szymongalaska/openweather/zipball/826fa5fab308539643d76e81145e5e15ccae6d1f",
-                "reference": "826fa5fab308539643d76e81145e5e15ccae6d1f",
+                "url": "https://api.github.com/repos/szymongalaska/openweather/zipball/205996e04ebc67f2e36d052dd9a57f3cdf6dd04e",
+                "reference": "205996e04ebc67f2e36d052dd9a57f3cdf6dd04e",
                 "shasum": ""
             },
             "require": {
@@ -55,9 +55,9 @@
             ],
             "support": {
                 "issues": "https://github.com/szymongalaska/openweather/issues",
-                "source": "https://github.com/szymongalaska/openweather/tree/v1.0.2"
+                "source": "https://github.com/szymongalaska/openweather/tree/v1.0.3"
             },
-            "time": "2025-01-31T11:50:29+00:00"
+            "time": "2025-02-10T14:32:23+00:00"
         },
         {
             "name": "blade-ui-kit/blade-icons",
@@ -8670,16 +8670,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "11.5.6",
+            "version": "11.5.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3c3ae14c90f244cdda95028c3e469028e8d1c02c"
+                "reference": "e1cb706f019e2547039ca2c839898cd5f557ee5d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3c3ae14c90f244cdda95028c3e469028e8d1c02c",
-                "reference": "3c3ae14c90f244cdda95028c3e469028e8d1c02c",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/e1cb706f019e2547039ca2c839898cd5f557ee5d",
+                "reference": "e1cb706f019e2547039ca2c839898cd5f557ee5d",
                 "shasum": ""
             },
             "require": {
@@ -8751,7 +8751,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.6"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/11.5.7"
             },
             "funding": [
                 {
@@ -8767,7 +8767,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-31T07:03:30+00:00"
+            "time": "2025-02-06T16:10:05+00:00"
         },
         {
             "name": "react/child-process",

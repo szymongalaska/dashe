@@ -67,11 +67,7 @@ class Weather extends Component
      */
     public function updateLocation(string $coordinates)
     {
-        if ($this->geolocation == false) {
-            return null;
-        }
-
-        $api = new OpenWeather();
+        $api = new OpenWeather(['timezone' => 'Europe/Warsaw', 'units' => $this->config['units']]);
         $coords = explode(', ', $coordinates);
         $location = $api->findLocationByCoords($coords[0], $coords[1]);
         $this->config['locations'][0] = ['name' => $location->getName(), 'country' => $location->getCountry(), 'coordinates' => $coordinates];
