@@ -1,6 +1,6 @@
-@props(['value', 'name'])
+@props(['value', 'name', 'index'])
 
 <p class="flex flex-col">
-        <span {{$attributes->merge(['class' => 'text-xs'])}}>{{$value}}</span>
+        <span class="text-xs @airPollutionTextColor($index)">{{$value}}</span>
         <span class="text-[0.5rem] uppercase">{{$name}}</span>
 </p>

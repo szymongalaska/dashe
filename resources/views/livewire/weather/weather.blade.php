@@ -1,26 +1,13 @@
-@php
-    function airPollutionText($value)
-    {
-        return match ($value) {
-            'Good' => 'text-green-600',
-            'Fair' => 'text-lime-500',
-            'Moderate' => 'text-yellow-400',
-            'Poor' => 'text-orange-500',
-            'Very Poor' => 'text-red-600'
-        };
-    }
-@endphp
-
 <div x-data="{locationIndex: @entangle('locationIndex')}">
-    <div class="max-w-7xl flex flex-wrap mx-auto overflow-hidden px-4">
+    <div class="max-w-xs lg:max-w-7xl flex overflow-x-auto no-scrollbar mx-auto lg:px-4 rounded-t-lg">
         @foreach($locations as $key => $locationInfo)
                 <div @class([
-                'max-w-36 bg-white dark:bg-gray-800 dark:text-gray-300 shadow-sm text-center text-sm px-4 py-1 cursor-pointer hover:text-gray-600 hover:dark:text-gray-100 transition duration-150 ease-in-out',
+                'bg-white dark:bg-gray-800 dark:text-gray-300 shadow-sm text-center text-sm px-4 py-1 cursor-pointer hover:text-gray-600 hover:dark:text-gray-100 transition duration-150 ease-in-out',
                 'rounded-tl-lg' => $loop->first,
                 'rounded-tr-lg' => $loop->last,
             ]) @click="locationIndex = {{$key}}; $wire.$refresh()"
                     x-bind:class="locationIndex == {{$key}} ? 'text-slate-800 dark:text-slate-100 font-semibold' : ''">
-                    <span class="inline-flex align-middle items-center gap-1">
+                    <span class="inline-flex justify-center align-middle items-center text-center gap-1 whitespace-nowrap">
                         @if($loop->first)
                             <x-mdi-near-me class="w-4" />
                         @endif
@@ -41,7 +28,7 @@
                 {{__('Refresh location')}}
             </p>
         @endif
-        <div class="flex flex-col md:flex-row items-center gap-2">
+        <div class="flex flex-col lg:flex-row items-center gap-2">
             <div class="flex flex-col items-center justify-center">
                 <div class="flex items-center">
                     <div class="w-36">
@@ -68,16 +55,32 @@
                             </p>
                         </x-weather.condition>
                     @endif
+                    @if($location->airPollution())
+                        <x-weather.condition
+                            class="relative group cursor-pointer">
+                            <x-weather.air-pollution-popover :airPollution="$location->airPollution()" />
+                            <p>{{__('Air quality: ')}}</p>
+                            <p
+                                class="font-semibold @airPollutionTextColor($location->airPollution()->getAirQualityIndexDescription())">
+                                {{__($location->airPollution()->getAirQualityIndexDescription())}}</p>
+                        </x-weather.condition>
+                    @endif
                     @if($location->weather()->isRaining())
                         <x-weather.condition>
                             <p>{{__('Rain: ')}}</p>
-                            <p class="font-semibold">{{$location->weather()->getRain()}}</p>
+                            <p class="font-semibold">{{$location->weather()->getRain()}} mm</p>
                         </x-weather.condition>
                     @endif
                     @if($location->weather()->isSnowing())
                         <x-weather.condition>
                             <p>{{__('Snow: ')}}</p>
-                            <p class="font-semibold">{{$location->weather()->getSnow()}}</p>
+                            <p class="font-semibold">{{$location->weather()->getSnow()}} mm</p>
+                        </x-weather.condition>
+                    @endif
+                    @if($location->weather()->getPressure())
+                        <x-weather.condition>
+                            <p>{{__('Pressure')}}</p>
+                            <p class="font-semibold">{{$location->weather()->getPressure()}} hPa</p>
                         </x-weather.condition>
                     @endif
                     @if($location->weather()->getHumidity())
@@ -106,16 +109,6 @@
                         <x-weather.condition>
                             <p>{{__('Visiblity: ')}}</p>
                             <p class="font-semibold">{{$location->weather()->getVisibility() / 1000}} km</p>
-                        </x-weather.condition>
-                    @endif
-                    @if($location->airPollution())
-                        <x-weather.condition 
-                            class="relative group cursor-pointer">
-                            <x-weather.air-pollution-popover :airPollution="$location->airPollution()" />
-                            <p>{{__('Air quality: ')}}</p>
-                            <p
-                                class="font-semibold {{airPollutionText($location->airPollution()->getAirQualityIndexDescription())}}">
-                                {{__($location->airPollution()->getAirQualityIndexDescription())}}</p>
                         </x-weather.condition>
                     @endif
                 </div>

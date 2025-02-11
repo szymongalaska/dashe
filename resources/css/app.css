@@ -8,6 +8,17 @@
     }
 
     ::-webkit-scrollbar {
-        @apply w-2 bg-none
+        @apply w-2 h-2 bg-none
+    }
+}
+
+@layer utilities {
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
     }
 }
