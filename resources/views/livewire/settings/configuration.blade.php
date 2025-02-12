@@ -6,6 +6,25 @@
         <p class="text-sm text-right font-medium text-gray-600 dark:text-gray-300">
             {{ __("Configuration")}}
         </p>
+
+        <ol class="flex justify-center items-center w-full px-6 mt-4">
+            @foreach($modules as $index => $module)
+            <li @class([
+                "w-full after:content-[''] after:w-full after:h-1 after:border-b after:border-gray-300 after:border-4 after:inline-block dark:after:border-gray-700" => !$loop->last,
+                'flex items-center text-purple-800 dark:text-purple-500'])>
+                <span
+                    class="flex items-center justify-center bg-gray-300 w-10 h-10 bg-white rounded-full lg:h-12 lg:w-12 dark:bg-gray-700 shrink-0">
+                    <template x-if="step > {{ $index }}">
+                        <x-mdi-check class="h-5 lg:h-6"/>
+                    </template>
+                    <template x-if="step <= {{ $index }}">
+                        <x-dynamic-component :component="$modulesIcons['weather']" x-bind:class="step < {{ $index }} ? 'h-5 lg:h-6 text-purple-400' : 'h-6 lg:h-8'"/>
+                    </template>
+                </span>
+            </li>
+            @endforeach
+        </ol>
+
     </header>
     @foreach($modules as $index => $module)
         <div x-bind:class="step === {{ $index }} ? 'active' : ''" x-show="step === {{ $index }}" x-trainsition
