@@ -17,9 +17,9 @@
         @if(!empty($result))
             @foreach($result as $city)
                 <div @click="geolocation = false, coordinates = '{{ $city['coordinates'] }}', city = {name: '{{ $city['name'] }}', country: '{{ $city['country'] }}', coordinates: '{{ $city['coordinates'] }}'} "
-                    class="flex justify-between p-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-gray-300 cursor-pointer">
+                    class="flex justify-between p-2 text-xs lg:text-sm hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-gray-300 cursor-pointer">
                     {{implode(', ', array_filter([$city['name'], $city['state'], $city['country']]))}}<span
-                        class="text-[8px] text-gray-500">{{ $city['coordinates'] }}</span>
+                        class="text-[8px] text-gray-500 truncate">{{ $city['coordinates'] }}</span>
                 </div>
             @endforeach
         @else

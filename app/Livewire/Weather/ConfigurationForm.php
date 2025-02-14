@@ -35,7 +35,6 @@ class ConfigurationForm extends Component
                 'locations' => [0 => $this->getLocationCity()],
                 'units' => $this->units,
             ],
-            'position' => ''
         ]);
 
         $this->dispatch('form-saved');

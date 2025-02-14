@@ -1,3 +1,3 @@
-<div {{$attributes->merge(['class'  => "w-24 h-16 flex flex-col text-xs text-center text-gray-600 dark:text-gray-300 px-2 py-4 m-2 rounded-md border border-gray-200 dark:border-gray-800 shadow-sm"])}}>
+<div {{$attributes->merge(['class'  => "w-24 h-16 flex flex-col justify-center text-xs text-center bg-gray-100/20 text-gray-600 dark:text-gray-300 p-2 m-1 rounded-md border border-gray-100/50 dark:border-gray-900/50 dark:bg-gray-900/80 transition duration-150 ease-in-out shadow-md"])}}>
     {{ $slot }}
 </div>

@@ -16,6 +16,6 @@ class WeatherController extends Controller
     public function index()
     {
 
-        return view('weather.index', ['weatherConfig' => request()->user()->module('weather')->config]);
+        return view('weather.index');
     }
 }

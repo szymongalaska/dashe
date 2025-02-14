@@ -110,4 +110,10 @@ class User extends Authenticatable
     {
         return $this->modules()->with('module')->whereRelation('module', 'name', $module)->where('enabled', true)->first();
     }
+
+    // TODO: Do sprawdzenia jak będzie więcej modułów
+    public function widgets()
+    {
+        return $this->hasManyThrough(Widget::class, UserModule::class)->orderBy('position')->where('enabled', true);
+    }
 }

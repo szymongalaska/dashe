@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class UserModule extends Model
 {
@@ -33,13 +33,8 @@ class UserModule extends Model
         return $this->belongsTo(\App\Models\Module::class);
     }
 
-    protected function position(): Attribute
+    public function widgets(): HasMany
     {
-        return Attribute::make(
-            set: function ($value, $attributes) {
-                $val = $this->where('user_id', $attributes['user_id'])->max('position');
-                return $val === null ? 0 : $val + 1;
-            }
-        );
+        return $this->HasMany(Widget::class);
     }
 }

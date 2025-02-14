@@ -10,6 +10,26 @@
     ::-webkit-scrollbar {
         @apply w-2 h-2 bg-none
     }
+
+    .grid > .small {
+        @apply col-span-1 row-span-1 max-w-xl max-h-40
+    }
+
+    .grid > .medium-col {
+        @apply col-span-2 row-span-1 max-w-5xl max-h-40
+    }
+
+    .grid > .medium-row {
+        @apply col-span-1 row-span-2 max-h-[21rem] max-w-xl
+    }
+
+    .grid > .big {
+        @apply col-span-3 row-span-2 max-w-[82rem] max-h-[21rem]
+    }
+
+    * {
+        @apply no-scrollbar md:scrollbar
+    }
 }
 
 @layer utilities {
@@ -20,5 +40,14 @@
     .no-scrollbar {
         -ms-overflow-style: none;
         scrollbar-width: none;
+    }
+
+    .scrollbar::-webkit-scrollbar {
+        display: initial;
+    }
+
+    .scrollbar {
+        scrollbar-width: initial;
+        -ms-overflow-style: initial;
     }
 }

@@ -12,11 +12,10 @@ return new class () extends Migration {
     {
         Schema::create('user_modules', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(App\Models\User::class, 'user_id');
-            $table->foreignIdFor(App\Models\Module::class, 'module_id');
+            $table->foreignIdFor(App\Models\User::class, 'user_id')->onDelete('cascade');
+            $table->foreignIdFor(App\Models\Module::class, 'module_id')->onDelete('cascade');
             $table->boolean('enabled')->default(true);
             $table->json('config')->nullable();
-            $table->integer('position');
             $table->timestamps();
 
             $table->unique(['user_id', 'module_id']);

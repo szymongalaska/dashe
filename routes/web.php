@@ -10,7 +10,7 @@ use App\Middleware\FirstConfiguration;
 
 Route::middleware(['auth', 'verified', FirstConfiguration::class])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return view('dashboard', ['widgets' => request()->user()->widgets()]);
     })->name('dashboard');
 
     Route::resource('/weather', \App\Http\Controllers\WeatherController::class);

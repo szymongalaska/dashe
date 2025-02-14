@@ -14,17 +14,19 @@ class Weather extends Component
 
     public $coordinates;
 
-    public $config;
+    protected $config;
 
+    protected OpenWeather $api;
 
     protected $listeners = [
         'weather-update' => 'locationsUpdate'
     ];
 
-    public function mount()
+    public function boot()
     {
         $this->config = request()->user()->module('weather')->config;
         $this->locations = $this->config['locations'];
+        $this->api = new OpenWeather(['timezone' => 'Europe/Warsaw', 'units' => $this->config['units']]);
     }
 
     public function render()
@@ -35,23 +37,22 @@ class Weather extends Component
     /**
      * @var \Bejblade\OpenWeather\Entity\Location $location
      * */
-    private function getLocation()
+    protected function getLocation()
     {
-        $api = new OpenWeather(['timezone' => 'Europe/Warsaw', 'units' => $this->config['units']]);
         $cacheKey = 'weather_' . $this->config['units'] . '_' . $this->config['locations'][$this->locationIndex]['coordinates'];
 
         if (Cache::has($cacheKey)) {
             $location = Cache::get($cacheKey);
 
             if ($location->weather()->isUpdateAvailable()) {
-                $api->getAllData($location);
+                $this->api->getAllData($location);
                 $nextUpdate = new \DateTime('@' . $location->weather()->getTimestamp()->getTimestamp() + 600);
                 Cache::put($cacheKey, $location, $nextUpdate);
             }
         } else {
             $location = explode(', ', $this->locations[$this->locationIndex]['coordinates']);
-            $location = $api->findLocationByCoords($location[0], $location[1]);
-            $api->getAllData($location);
+            $location = $this->api->findLocationByCoords($location[0], $location[1]);
+            $this->api->getAllData($location);
             $nextUpdate = new \DateTime('@' . $location->weather()->getTimestamp()->getTimestamp() + 600);
             Cache::put($cacheKey, $location, $nextUpdate);
         }
@@ -67,9 +68,8 @@ class Weather extends Component
      */
     public function updateLocation(string $coordinates)
     {
-        $api = new OpenWeather(['timezone' => 'Europe/Warsaw', 'units' => $this->config['units']]);
         $coords = explode(', ', $coordinates);
-        $location = $api->findLocationByCoords($coords[0], $coords[1]);
+        $location = $this->api->findLocationByCoords($coords[0], $coords[1]);
         $this->config['locations'][0] = ['name' => $location->getName(), 'country' => $location->getCountry(), 'coordinates' => $coordinates];
 
         request()->user()->module('weather')->update(['config' => $this->config]);
@@ -86,8 +86,6 @@ class Weather extends Component
 
     public function locationsUpdate()
     {
-        $this->config = request()->user()->module('weather')->config;
-        $this->locations = $this->config['locations'];
         if (!in_array($this->locationIndex, array_keys($this->locations))) {
             end($this->locations);
             $this->locationIndex = key($this->locations);
